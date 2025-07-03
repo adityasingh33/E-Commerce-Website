@@ -101,27 +101,6 @@ section {
   background-color: var(--pink);
 }
 header {
-<<<<<<< HEAD
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #fff;
-  padding: 2rem 9%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1000;
-  box-shadow: 0.5rem 1rem rgba(0, 0, 0, 1);
-}
-header .logo {
-  font-size: 3rem;
-  color: #333;
-  font-weight: bolder;
-}
-header .logo span {
-  color: var(--pink);
-=======
     position: fixed;
     top: 0;
     left: 0;
@@ -141,7 +120,6 @@ header .logo {
 }
 header .logo span {
     color: var(--pink);
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
 }
 header .navbar a {
   font-size: 2rem;
@@ -178,21 +156,12 @@ header .fa-bars {
   display: none;
 }
 .home {
-<<<<<<< HEAD
-  display: flex;
-  align-items: center;
-  min-height: 100vh;
-  background: url("photo/pexels-pixabay-414660.jpg") no-repeat;
-  background-size:auto;
-  background-position: center;
-=======
     display: flex;
     align-items: center;
     min-height: 100vh;
     background: url("photo/Hero.jpg");
     background-size: cover;
     background-position: center;
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
 }
 .home .content {
   max-width: 50rem;
@@ -342,10 +311,6 @@ header .fa-bars {
   padding: 2rem;
   text-align: center;
 }
-<<<<<<< HEAD
-.products .box-container .box .content h3 {
-  font-size: 2.5rem;
-=======
 .products .box-container .box .content h3{
     font-size: 2.5rem;
     color:#333 ;
@@ -458,7 +423,6 @@ header .fa-bars {
     flex:1 1 25rem;
 }
 .footer .box-container .box h3{
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
   color: #333;
 }
 .products .box-container .box .content .price {
@@ -573,26 +537,15 @@ header .fa-bars {
   font-size: 2.5rem;
   padding: 1rem 0;
 }
-<<<<<<< HEAD
-.footer .box-containe .box a {
-  display: block;
-=======
 .footer .box-container .box a{
     display: block;
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
   color: #666;
   font-size: 1.5rem;
   padding: 1rem 0;
 }
-<<<<<<< HEAD
-.footer .box-containe .box a:hover {
-  color: var(--pink);
-  text-decoration: underline;
-=======
 .footer .box-container .box a:hover{
     color: var(--pink);
     text-decoration: underline;
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
 }
 .footer .box-container .box img {
   margin-top: 1rem;
@@ -609,8 +562,6 @@ header .fa-bars {
 .footer .credit span {
   color: var(--pink);
 }
-<<<<<<< HEAD
-=======
 .footer .credit span{
    color: var(--pink);
 }
@@ -667,4 +618,3 @@ header .fa-bars {
         font-size: 3rem;
     }
 }
->>>>>>> 9b0f1ac0805936d31f9b404c608cc9c0fc01212b
