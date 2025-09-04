@@ -9,7 +9,7 @@ router.post('/seller', protect, createProduct);
 
 router.get('/',  getAllProducts);
 
-router.put('/:id', getProduct);
+router.get('/:id', getProduct);
 
 router.put('/:id', protect, updateProduct);
 

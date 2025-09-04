@@ -44,10 +44,10 @@ export const registerUser = async (req, res) => {
 }
 
 export const loginuser = async (req, res) => {
-    const { email, password , role } = req.body;
+    const { email, password  } = req.body;
 
 
-    if (!email || !password || !role) {
+    if (!email || !password ) {
         return res.status(400).json({ message: "Email and password are required" });
     }
 
@@ -60,7 +60,6 @@ export const loginuser = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role,
                 token: generateToken(user._id),
             });
         } else {
