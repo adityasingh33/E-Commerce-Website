@@ -48,7 +48,7 @@ export const addToCart = async(req, res) => {
             }
         }
 
-        await cart.save(); // This will trigger the pre-save middleware to calculate totalAmount
+        await cart.save();
 
         res.status(201).json({
             _id: cart._id,
@@ -76,7 +76,7 @@ export const removeFromCart = async(req, res) => {
        
         cart.items = cart.items.filter(item => item.product.toString() !== productId);
         
-        await cart.save(); // This will recalculate totalAmount
+        await cart.save(); 
 
         res.status(200).json({ 
             message: 'Item removed from cart successfully',
