@@ -67,7 +67,7 @@ export const removeFromCart = async(req, res) => {
         const { productId } = req.params;
         const userId = req.user.id;
 
-        const cart = await Cart.findOne({ user: userId });
+        const cart = await Cart.findOne({user: userId});
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
