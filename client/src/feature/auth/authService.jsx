@@ -17,9 +17,15 @@ const login = async(userData) => {
 
     return response.data;
 }
+
+const logout = () => {
+    localStorage.removeItem('user');
+    // You might want to also call an API endpoint to invalidate the token on the server
+};
 const authService = {
   register,
   login,
+  logout
 }
 
 export default authService 
