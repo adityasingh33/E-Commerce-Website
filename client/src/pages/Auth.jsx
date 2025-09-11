@@ -32,8 +32,6 @@ const Auth = () => {
 
     };
 
-
-
     const onSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -70,9 +68,6 @@ const Auth = () => {
                 const loginData = { email, password };
                 const responseData = await authService.login(loginData);
                 login(responseData);
-
-
-                
 
                 toast('Registered Succesfully ')
 
