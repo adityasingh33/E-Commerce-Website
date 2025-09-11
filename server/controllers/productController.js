@@ -2,9 +2,9 @@ import Product from '../models/productSchema.js'
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, price, description, imageUrl, seller } = req.body;
+        const { name, price, description, imageUrl, seller,stock,category } = req.body;
 
-        if (!name || !price || !description || !imageUrl || !seller) {
+        if (!name || !price || !description || !imageUrl || !seller || !stock || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -13,7 +13,9 @@ export const createProduct = async (req, res) => {
             price,
             description,
             imageUrl,
-            seller
+            seller,
+            stock,
+            category
         });
 
         if(product) {
@@ -22,8 +24,10 @@ export const createProduct = async (req, res) => {
                 name: product.name,
                 price: product.price,
                 description: product.description,
-                image: product.imageUrl,
-                seller: product.seller
+                imageUrl: product.imageUrl,
+                seller: product.seller,
+                stock:product.stock,
+                category:product.category
             });
         } else {
             res.status(400).json({ message: 'Failed to create product' });

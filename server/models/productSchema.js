@@ -41,7 +41,8 @@ const productSchema = new mongoose.Schema(
         
         category: {
             type: String,
-            trim: true
+            trim: true,
+            required:[true,'Product category is required']
         },
         
         isActive: {
