@@ -1,50 +1,189 @@
+// import axios from 'axios';
+
+// const API_URL = 'http://localhost:5000/api/products/';
+
+// // Helper function to get the auth token from wherever you store it (e.g., localStorage)
+// const getAuthHeaders = () => {
+//     // Assuming you store the token in localStorage after login
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     if (user && user.token) {
+//         return {
+//             headers: {
+//                 Authorization: `Bearer ${user.token}`
+//             }
+//         };
+//     }
+//     return {};
+// };
+
+// const getSellerProducts = async () => {
+//     const response = await axios.get(API_URL + 'myproducts', getAuthHeaders());
+//     return response.data;
+// }
+// // GET all products
+// const getProducts = async () => {
+//     const response = await axios.get(API_URL);
+//     return response.data;
+// };
+
+// // POST a new product
+// const addProduct = async (productData) => {
+//     // The endpoint is '/seller' for creation as per your routes
+//     const response = await axios.post(API_URL + 'seller', productData, getAuthHeaders());
+//     return response.data;
+// };
+
+// // PUT (update) an existing product
+// const editProduct = async (productId, productData) => {
+//     // Correct URL format: /api/products/:id
+//     const response = await axios.put(API_URL + productId, productData, getAuthHeaders());
+//     return response.data;
+// };
+
+// // DELETE a product
+// const deleteProduct = async (productId) => {
+//     // Correct URL format: /api/products/:id
+//     const response = await axios.delete(API_URL + productId, getAuthHeaders());
+//     return response.data;
+// };
+
+// const productService = {
+//     getProducts,
+//     getSellerProducts,
+//     addProduct,
+//     editProduct,
+//     deleteProduct
+// };
+
+// export default productService;
+
+
+
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/products/';
 
-// Helper function to get the auth token from wherever you store it (e.g., localStorage)
+// Helper function to get the auth token
 const getAuthHeaders = () => {
-    // Assuming you store the token in localStorage after login
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.token) {
-        return {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        };
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.token) {
+            return {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+        }
+    } catch (error) {
+        console.error('Error parsing user data from localStorage:', error);
     }
-    return {};
+    return {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
 };
 
-// GET all products
+// GET products for the logged-in seller
+const getSellerProducts = async () => {
+    try {
+        const response = await axios.get(API_URL + 'myproducts', getAuthHeaders());
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching seller products:', error);
+        throw error;
+    }
+};
+
+// GET all products (public)
 const getProducts = async () => {
-    const response = await axios.get(API_URL);
-    return response.data;
+    try {
+        const response = await axios.get(API_URL);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching all products:', error);
+        throw error;
+    }
+};
+
+// GET single product by ID
+const getProduct = async (productId) => {
+    try {
+        const response = await axios.get(API_URL + productId);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        throw error;
+    }
 };
 
 // POST a new product
 const addProduct = async (productData) => {
-    // The endpoint is '/seller' for creation as per your routes
-    const response = await axios.post(API_URL + 'seller', productData, getAuthHeaders());
-    return response.data;
+    try {
+        // Validate required fields
+        const { name, price, description, imageUrl, stock, category } = productData;
+        
+        if (!name || !price || !description || !imageUrl || !stock || !category) {
+            throw new Error('All fields are required');
+        }
+
+        // Ensure numeric fields are properly formatted
+        const formattedData = {
+            ...productData,
+            price: parseFloat(price),
+            stock: parseInt(stock)
+        };
+
+        const response = await axios.post(API_URL + 'seller', formattedData, getAuthHeaders());
+        return response.data;
+    } catch (error) {
+        console.error('Error adding product:', error);
+        throw error;
+    }
 };
 
 // PUT (update) an existing product
 const editProduct = async (productId, productData) => {
-    // Correct URL format: /api/products/:id
-    const response = await axios.put(API_URL + productId, productData, getAuthHeaders());
-    return response.data;
+    try {
+        if (!productId) {
+            throw new Error('Product ID is required');
+        }
+
+        // Ensure numeric fields are properly formatted
+        const formattedData = {
+            ...productData,
+            price: parseFloat(productData.price),
+            stock: parseInt(productData.stock)
+        };
+
+        const response = await axios.put(API_URL + productId, formattedData, getAuthHeaders());
+        return response.data;
+    } catch (error) {
+        console.error('Error editing product:', error);
+        throw error;
+    }
 };
 
 // DELETE a product
 const deleteProduct = async (productId) => {
-    // Correct URL format: /api/products/:id
-    const response = await axios.delete(API_URL + productId, getAuthHeaders());
-    return response.data;
+    try {
+        if (!productId) {
+            throw new Error('Product ID is required');
+        }
+
+        const response = await axios.delete(API_URL + productId, getAuthHeaders());
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        throw error;
+    }
 };
 
 const productService = {
     getProducts,
+    getProduct,
+    getSellerProducts,
     addProduct,
     editProduct,
     deleteProduct
