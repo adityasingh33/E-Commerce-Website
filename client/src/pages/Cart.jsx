@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar'; // Make sure this path is correct
+// Make sure this path is correct
 import cartService from '../feature/CartService'; // Import the service you just created
 
 // --- SVG Icon Components ---
@@ -81,7 +81,7 @@ const Cart = () => {
     if (!cart || cart.items.length === 0) {
         return (
             <div className="bg-gray-100 min-h-screen">
-                <Navbar />
+               
                 <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                     <div className="text-center bg-white p-12 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold text-gray-700">Your cart is empty.</h2>
@@ -100,7 +100,7 @@ const Cart = () => {
 
     return (
         <div className="bg-gray-100 min-h-screen">
-            <Navbar />
+          
             <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Your Shopping Cart</h1>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">

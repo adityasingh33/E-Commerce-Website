@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage.jsx';
 import ProductDetail from './pages/ProductDetail.jsx'; // <-- 1. Import the new page
 import Navbar from './components/Navbar';
 import Cart from './pages/Cart.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 // Your ProtectedRoute component here...
 const ProtectedRoute = ({ children }) => {
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/product/:id" element={<ProductDetail />} /> {/* <-- 2. Add the new route */}
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<Checkout />} />
 
                     {/* Protected Seller Route */}
                     <Route 
