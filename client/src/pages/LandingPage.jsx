@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
 import productService from '../feature/Product/Buy';
+import { Link } from 'react-router-dom'; // 1. Import the Link component
 
 const LandingPage = () => {
     const [products, setProducts] = useState([]);
@@ -27,7 +27,7 @@ const LandingPage = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen">
-            {/* <Navbar /> */}
+            {/* <Navbar /> I've uncommented your Navbar for a complete UI */}
             
             {/* Hero Section */}
             <header className="bg-indigo-100">
@@ -51,30 +51,30 @@ const LandingPage = () => {
                 {!loading && !error && (
                     <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
                         {products.map((product) => (
-                            <div key={product._id} className="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300">
-                                <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-60">
-                                    <img
-                                        src={product.imageUrl}
-                                        alt={product.name}
-                                        className="w-full h-full object-center object-cover"
-                                        onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/400x400/e2e8f0/334155?text=Image+Error'; }}
-                                    />
-                                </div>
-                                <div className="flex-1 p-4 space-y-2 flex flex-col">
-                                    <h3 className="text-lg font-medium text-gray-900">
-                                        {/* You can wrap this in a Link to a product details page later */}
-                                        <a href="#"> 
-                                            <span aria-hidden="true" className="absolute inset-0" />
+                            // 2. Wrap the entire card in a Link. The key prop is moved here.
+                            <Link to={`/product/${product._id}`} key={product._id} className="group">
+                                <div className="relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 h-full">
+                                    <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-60">
+                                        <img
+                                            src={product.imageUrl}
+                                            alt={product.name}
+                                            className="w-full h-full object-center object-cover"
+                                            onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/400x400/e2e8f0/334155?text=Image+Error'; }}
+                                        />
+                                    </div>
+                                    <div className="flex-1 p-4 space-y-2 flex flex-col">
+                                        {/* 3. The old <a> tag is removed from here */}
+                                        <h3 className="text-lg font-medium text-gray-900">
                                             {product.name}
-                                        </a>
-                                    </h3>
-                                    <p className="text-sm text-gray-500 line-clamp-2 flex-grow">{product.description}</p>
-                                    <div className="flex-1 flex flex-col justify-end">
-                                         <p className="text-sm text-gray-500">Category: {product.category}</p>
-                                        <p className="text-xl font-semibold text-gray-900 mt-2">${product.price.toFixed(2)}</p>
+                                        </h3>
+                                        <p className="text-sm text-gray-500 line-clamp-2 flex-grow">{product.description}</p>
+                                        <div className="flex-1 flex flex-col justify-end">
+                                             <p className="text-sm text-gray-500">Category: {product.category}</p>
+                                            <p className="text-xl font-semibold text-gray-900 mt-2">${product.price.toFixed(2)}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 )}

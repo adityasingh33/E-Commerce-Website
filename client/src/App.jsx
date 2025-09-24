@@ -1,68 +1,36 @@
-
-
-// import React from 'react'
-// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-// import { AuthProvider } from './context/authContext'
-// import Auth from './pages/Auth'
-// import Seller from './pages/Seller'
-// const App = () => {
-//   return (
-//     <AuthProvider>
-//       <Router>
-//         <div>
-//           <Routes>
-//             <Route path="/auth" element={<Auth />} />
-//             <Route path="/" element={<Navigate to="/auth" />} />
-//             <Route path="/seller" element={<Seller/>}></Route>
-//           </Routes>
-//         </div>
-//       </Router>
-
-//     </AuthProvider>
-
-//   )
-// }
-// export default App
-
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/authContext';
-import Auth from './pages/Auth';
-import Seller from './pages/Seller';
-import LandingPage from './pages/LandingPage'; // Import the new landing page
+import { AuthProvider, useAuth } from './context/authContext.jsx';
+import Auth from './pages/Auth.jsx';
+import Seller from './pages/Seller.jsx';
+import LandingPage from './pages/LandingPage.jsx';
+import ProductDetail from './pages/ProductDetail.jsx'; // <-- 1. Import the new page
 import Navbar from './components/Navbar';
+import Cart from './pages/Cart.jsx';
 
-/**
- * A wrapper component to protect routes that require authentication.
- * If the user is not logged in, it redirects them to the /auth page.
- */
+// Your ProtectedRoute component here...
 const ProtectedRoute = ({ children }) => {
     const { user } = useAuth();
-
     if (!user) {
-        // Redirect them to the /auth page, but save the current location they were
-        // trying to go to. This allows us to send them back there after they log in.
         return <Navigate to="/auth" replace />;
     }
-
     return children;
 };
+
 
 const App = () => {
     return (
         <AuthProvider>
             <Router>
-              <Navbar />
+               <Navbar />
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/auth" element={<Auth />} />
+                    <Route path="/product/:id" element={<ProductDetail />} /> {/* <-- 2. Add the new route */}
+                    <Route path="/cart" element={<Cart />} />
 
-                    {/*
-                      Protected Seller Route.
-                      Only authenticated users can access the /seller path.
-                    */}
+                    {/* Protected Seller Route */}
                     <Route 
                         path="/seller" 
                         element={
@@ -72,7 +40,7 @@ const App = () => {
                         } 
                     />
 
-                    {/* Optional: Add a catch-all route to redirect to home if a page is not found */}
+                    {/* Catch-all route */}
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </Router>
@@ -81,4 +49,3 @@ const App = () => {
 };
 
 export default App;
-
