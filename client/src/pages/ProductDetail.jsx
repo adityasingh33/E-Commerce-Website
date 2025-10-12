@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/NavBar.jsx';
+import Navbar from '../components/Navbar.jsx';
 import productService from '../feature/Product/Buy.jsx';
 import cartService from '../feature/CartService.jsx';
 
