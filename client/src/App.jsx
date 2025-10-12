@@ -28,9 +28,22 @@ const App = () => {
                     {/* Public Routes */}
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/auth" element={<Auth />} />
-                    <Route path="/product/:id" element={<ProductDetail />} /> {/* <-- 2. Add the new route */}
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/product/:id" element={<ProductDetail />} /> 
+                    <Route path="/cart" element={
+                        
+                           <ProtectedRoute>
+                                 <Cart />
+                           </ProtectedRoute>
+                         } 
+                            />
+                    <Route path="/checkout" element={
+                        
+                        <ProtectedRoute>
+                            <Checkout />
+                        </ProtectedRoute>
+                        } 
+                        
+                        />
 
                     {/* Protected Seller Route */}
                     <Route 

@@ -45,7 +45,7 @@ const ProductDetail = () => {
         price: product.price
       };
       await cartService.addToCart(cartData);
-      navigate('/cart');
+      // navigate('/cart');
     } catch (err) {
       console.error("Failed to add to cart:", err);
       alert("There was an error adding the product to your cart.");

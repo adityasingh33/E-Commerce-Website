@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +14,11 @@ const Checkout = () => {
     const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         phone: '',
-        address: ''
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: 'India'
     });
     const navigate = useNavigate();
 
@@ -36,17 +44,27 @@ const Checkout = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.phone || !formData.address) {
-            setError('Phone number and address are required.');
+        
+        // Validate form fields
+        if (!formData.phone || !formData.street || !formData.city || !formData.state || !formData.zipCode) {
+            setError('All address fields are required.');
             return;
         }
+        
         if (!cart || cart.items.length === 0) {
             setError('Your cart is empty.');
             return;
         }
 
         const orderData = {
-            ...formData,
+            phone: formData.phone,
+            address: {
+                street: formData.street,
+                city: formData.city,
+                state: formData.state,
+                zipCode: formData.zipCode,
+                country: formData.country
+            },
             items: cart.items.map(item => ({
                 product: item.product._id,
                 quantity: item.quantity,
@@ -55,16 +73,20 @@ const Checkout = () => {
             totalAmount: cart.totalAmount,
         };
 
+        console.log('=== ORDER DATA BEING SENT ===');
+        console.log(JSON.stringify(orderData, null, 2));
+
         try {
             const createdOrder = await checkoutService.createOrder(orderData);
             // After creating the order, clear the cart
             await cartService.clearCart();
             // Redirect to a success page or user's order history
             alert('Order placed successfully!');
-            navigate('/orders'); // You might need to create an orders page
+            navigate('/orders');
         } catch (err) {
             console.error('Failed to create order:', err);
-            setError('There was a problem placing your order. Please try again.');
+            console.error('Error response:', err.response?.data);
+            setError(err.response?.data?.message || 'There was a problem placing your order. Please try again.');
         }
     };
 
@@ -74,7 +96,6 @@ const Checkout = () => {
     
     return (
         <div className="bg-gray-100 min-h-screen">
-       
             <main className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Checkout</h1>
                 
@@ -84,7 +105,7 @@ const Checkout = () => {
                     {/* Shipping Details Form */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold text-gray-800 border-b pb-4">Shipping Information</h2>
-                        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+                        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
                                 <input 
@@ -94,24 +115,88 @@ const Checkout = () => {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="10-digit phone number"
+                                    pattern="[0-9]{10}"
                                     required
                                 />
                             </div>
+                            
                             <div>
-                                <label htmlFor="address" className="block text-sm font-medium text-gray-700">Full Address</label>
-                                <textarea 
-                                    id="address" 
-                                    name="address"
-                                    rows="4"
-                                    value={formData.address}
+                                <label htmlFor="street" className="block text-sm font-medium text-gray-700">Street Address</label>
+                                <input 
+                                    type="text" 
+                                    id="street" 
+                                    name="street"
+                                    value={formData.street}
                                     onChange={handleChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    placeholder="123 Main St, Anytown, USA 12345"
+                                    placeholder="123 Main St"
                                     required
-                                ></textarea>
+                                />
                             </div>
-                             <button type="submit" className="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-                                Place Order
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+                                    <input 
+                                        type="text" 
+                                        id="city" 
+                                        name="city"
+                                        value={formData.city}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="City"
+                                        required
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
+                                    <input 
+                                        type="text" 
+                                        id="state" 
+                                        name="state"
+                                        value={formData.state}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="State"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">ZIP Code</label>
+                                    <input 
+                                        type="text" 
+                                        id="zipCode" 
+                                        name="zipCode"
+                                        value={formData.zipCode}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="ZIP Code"
+                                        required
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">Country</label>
+                                    <input 
+                                        type="text" 
+                                        id="country" 
+                                        name="country"
+                                        value={formData.country}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="Country"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
+                            <button type="submit" className="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-300 mt-6">
+                                Place Order and Proceed for payment
                             </button>
                         </form>
                     </div>
@@ -151,4 +236,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
