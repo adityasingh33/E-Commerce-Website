@@ -188,7 +188,7 @@ const Auth = () => {
 
 
 
-                    {/* {!isLogin && role === 'seller' && (
+                    {!isLogin && role === 'seller' && (
 
                         <div className="p-4 border-t mt-4 space-y-4">
 
@@ -200,7 +200,7 @@ const Auth = () => {
 
                         </div>
 
-                    )} */}
+                    )}
 
 
 
