@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // Adjust the base URL to your actual API endpoint for orders/checkout
-const API_URL = 'http://localhost:5000/api/checkout/';
+// const API_URL = 'http://localhost:5000/api/checkout/';
+
+const API_URL = `${import.meta.env.VITE_API_URL}/api/cart/checkout/`;
 
 // Helper function to get the authentication token from localStorage
 const getAuthHeaders = () => {
